@@ -4,6 +4,9 @@ using BlazorWebAppEntra.Components;
 using BlazorWebAppEntra.Weather;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Graph;
+using Microsoft.Graph.Groups.Item.MembersWithLicenseErrors;
+using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,9 +17,18 @@ builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents()
     .AddAuthenticationStateSerialization();
 
-builder.Services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"));
+builder.Services
+       .AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+       .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))
+       .EnableTokenAcquisitionToCallDownstreamApi()
+       .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
+       //.AddDownstreamApi("MicrosoftGraph", builder.Configuration.GetSection("MicrosoftGraph"))
+       .AddInMemoryTokenCaches()
+       ;
+
 builder.Services.AddAuthorization();
+
+
 
 builder.Services.AddScoped<IWeatherForecaster, ServerWeatherForecaster>();
 
@@ -40,10 +52,16 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 
-app.MapGet("/weather-forecast", (ClaimsPrincipal user, [FromServices] IWeatherForecaster WeatherForecaster) =>
+app.MapGet("/weather-forecast", async (ClaimsPrincipal user, IAuthorizationHeaderProvider provider,[FromServices] IWeatherForecaster WeatherForecaster) =>
 {
+    var header = await provider.CreateAuthorizationHeaderForUserAsync(["user.read"]);
+
+
     return WeatherForecaster.GetWeatherForecastAsync();
+
+
 }).RequireAuthorization();
+
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
