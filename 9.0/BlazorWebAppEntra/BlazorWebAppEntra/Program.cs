@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using BlazorWebAppEntra.Client.Weather;
 using BlazorWebAppEntra.Components;
 using BlazorWebAppEntra.Weather;
@@ -39,7 +40,7 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 
-app.MapGet("/weather-forecast", ([FromServices] IWeatherForecaster WeatherForecaster) =>
+app.MapGet("/weather-forecast", (ClaimsPrincipal user, [FromServices] IWeatherForecaster WeatherForecaster) =>
 {
     return WeatherForecaster.GetWeatherForecastAsync();
 }).RequireAuthorization();
