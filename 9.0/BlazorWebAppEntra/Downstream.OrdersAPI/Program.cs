@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Abstractions;
@@ -38,6 +39,11 @@ var summaries = new[]
 app.MapGet("/weatherforecast", (HttpContext httpContext) =>
 {
     httpContext.VerifyUserHasAnyAcceptedScope(scopeRequiredByApi);
+
+    var username = httpContext.User.FindFirstValue("name");
+
+    app.Logger.LogInformation("Getting weather forecast for {user}", username);
+
 
     var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
