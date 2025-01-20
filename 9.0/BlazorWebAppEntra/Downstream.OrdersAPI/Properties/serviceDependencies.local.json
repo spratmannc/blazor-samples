@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "identityapp1": {
+      "connectionInfo": "App registration: Orders - Blazor Web Entra, Tenant: Aynot Solutions (aynotsolutions.com - Microsoft Entra ID)",
+      "type": "identityapp.default"
+    }
+  }
+}

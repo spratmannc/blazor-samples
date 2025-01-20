@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "BlazorWebAppEntra\\BlazorWebAppEntra.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Downstream.OrdersAPI\\Downstream.OrdersAPI.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

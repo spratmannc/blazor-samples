@@ -1,0 +1,6 @@
+@Downstream.OrdersAPI_HostAddress = http://localhost:5132
+
+GET {{Downstream.OrdersAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

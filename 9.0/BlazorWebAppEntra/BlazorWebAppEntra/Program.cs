@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using BlazorWebAppEntra.Client.Weather;
 using BlazorWebAppEntra.Components;
@@ -22,7 +23,7 @@ builder.Services
        .AddMicrosoftIdentityWebApp(builder.Configuration.GetSection("AzureAd"))
        .EnableTokenAcquisitionToCallDownstreamApi()
        .AddMicrosoftGraph(builder.Configuration.GetSection("MicrosoftGraph"))
-       //.AddDownstreamApi("MicrosoftGraph", builder.Configuration.GetSection("MicrosoftGraph"))
+       .AddDownstreamApi("Orders", builder.Configuration.GetSection("Orders"))
        .AddInMemoryTokenCaches()
        ;
 
@@ -52,11 +53,17 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 
-app.MapGet("/weather-forecast", async (ClaimsPrincipal user, IAuthorizationHeaderProvider provider,[FromServices] IWeatherForecaster WeatherForecaster) =>
+app.MapGet("/weather-forecast", async (ClaimsPrincipal user, IDownstreamApi api, IAuthorizationHeaderProvider provider,[FromServices] IWeatherForecaster WeatherForecaster) =>
 {
-    var header = await provider.CreateAuthorizationHeaderForUserAsync(["user.read"]);
 
-    return WeatherForecaster.GetWeatherForecastAsync();
+    var result = await api.CallApiForUserAsync<WeatherForecast[]>("Orders", options =>
+    {
+        options.HttpMethod = "GET";
+        options.RelativePath = "weatherforecast";
+    });
+
+    return result;
+    //return WeatherForecaster.GetWeatherForecastAsync();
 
 }).RequireAuthorization();
 

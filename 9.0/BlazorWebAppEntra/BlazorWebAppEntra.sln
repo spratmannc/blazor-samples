@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebAppEntra", "Blazor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebAppEntra.Client", "BlazorWebAppEntra.Client\BlazorWebAppEntra.Client.csproj", "{0E2BE51B-7C55-4CBB-B3E8-7A8EF304C8E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downstream.OrdersAPI", "Downstream.OrdersAPI\Downstream.OrdersAPI.csproj", "{2C8A700D-6AB6-460D-98E5-DD9E58CAFDF0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{0E2BE51B-7C55-4CBB-B3E8-7A8EF304C8E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E2BE51B-7C55-4CBB-B3E8-7A8EF304C8E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E2BE51B-7C55-4CBB-B3E8-7A8EF304C8E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C8A700D-6AB6-460D-98E5-DD9E58CAFDF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C8A700D-6AB6-460D-98E5-DD9E58CAFDF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C8A700D-6AB6-460D-98E5-DD9E58CAFDF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C8A700D-6AB6-460D-98E5-DD9E58CAFDF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
