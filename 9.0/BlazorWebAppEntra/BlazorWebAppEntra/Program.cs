@@ -56,9 +56,16 @@ app.MapGet("/weather-forecast", async (ClaimsPrincipal user, IAuthorizationHeade
 {
     var header = await provider.CreateAuthorizationHeaderForUserAsync(["user.read"]);
 
-
     return WeatherForecaster.GetWeatherForecastAsync();
 
+}).RequireAuthorization();
+
+
+app.MapGet("/my-photo", async (GraphServiceClient graph) =>
+{
+    var result = await graph.Me.Photo.Content.GetAsync();
+
+    return Results.File(result!, contentType: "image/jpeg");
 
 }).RequireAuthorization();
 
